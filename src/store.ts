@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
 import client from './state/client'
+import command from './state/command'
 export const store = configureStore({
   reducer: {
-    client: client
+    client: client,
+    command: command
   },
 })
 

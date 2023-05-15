@@ -43,21 +43,18 @@ const AppBarSetting = () => {
     }
     return (
         <div className='w-full'>
-            <h1 className='text-d font-semibold cursor-pointer select-none flex items-center' onClick={toggleOpen}>App Bar {isOpen ? <AiFillCaretUp className='ml-2'/> : <AiFillCaretDown className='ml-2' />}</h1>
-            {isOpen && (
-                <div className='space-y-4 pl-6'>
 
                     <h1 className='text-md font-semibold pb-2 flex items-center cursor-pointer' onClick={toggleBGOpen}>Background {isBGOpen ? <AiFillCaretUp className='ml-2'/> : <AiFillCaretDown className='ml-2' />}</h1>
                     {isBGOpen && (
                         <>
-                            <button className="bg-gray-800 text-white font-semibold px-3 rounded-md py-1 mr-4"
+                            <button className="bg-gray-800 text-white font-semibold px-3 rounded-md mb-4 py-1 mr-4"
                             onClick={() => handleOnChangeBackground(defaultBlack)}>Black</button>
                             <button className="bg-white text-black font-semibold px-3 rounded-md py-1 mr-4"
                             onClick={() => handleOnChangeBackground(defaultWhite)}>White</button>
                             <div className='w-full pb-4'>
                                 <SliderPicker color={background} onChange={handleOnChangeBackground} />
-                                <div className='mt-4 w-full'>
-                                    <AlphaPicker className="w-full" color={background} onChange={handleOnChangeBackground} />
+                                <div className='mt-4'>
+                                    <AlphaPicker className="" color={background} onChange={handleOnChangeBackground} />
                                 </div>
                             </div>
                         </>
@@ -79,8 +76,6 @@ const AppBarSetting = () => {
                     </>
                     )}
 
-                </div>
-            )}
         </div>
     )
 }

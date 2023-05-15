@@ -42,10 +42,7 @@ const AppEditorSetting = () => {
         rgb: { r: 0, g: 0, b: 0, a: 1 }
     }
     return (
-        <div className='w-full space-y-4 -my-6'>
-            <h1 className='text-md font-semibold pb-2 cursor-pointer select-none flex items-center' onClick={toggleOpen}>Editor {isOpen ? <AiFillCaretUp className='ml-2'/> : <AiFillCaretDown className='ml-2' />}</h1>
-            {isOpen && (
-                <div className='space-y-4 pl-6'>
+        <div className='w-full'>
 
                     <h1 className='text-md font-semibold pb-2 flex items-center cursor-pointer' onClick={toggleBGOpen}>Background {isBGOpen ? <AiFillCaretUp className='ml-2'/> : <AiFillCaretDown className='ml-2' />}</h1>
                     {isBGOpen && (
@@ -78,9 +75,6 @@ const AppEditorSetting = () => {
                     </div>
                     </>
                     )}
-
-                </div>
-            )}
         </div>
     )
 }

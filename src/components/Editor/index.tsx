@@ -12,18 +12,17 @@ import html from 'highlight.js/lib/languages/xml'
 import EditorElementSelect from './EditorElementSelect';
 import { useAppSelector } from '../../hooks';
 import ClientSettingsPage from '../../pages/ClientSettings';
-import { generateProseColors } from '../../utils/generateProseColors';
+import useKeyPress from '../hooks/useKeyDown';
 
 const Editor = () => {
   const { background, text } = useAppSelector((state) => state.client.options.editor.style);
   const { isPersonalOpen } = useAppSelector((state) => state.client);
-
+  const isCommandOpen = useAppSelector((state) => state.command.isCommandOpen);
   lowlight.registerLanguage('html', html);
   lowlight.registerLanguage('js', js);
   lowlight.registerLanguage('ts', ts);
   lowlight.registerLanguage('css', css);
 
-  const [isEditable] = React.useState(true);
   const editor = useEditor({
     extensions: [
       StarterKit.configure({ codeBlock: false }),
@@ -43,22 +42,25 @@ const Editor = () => {
     },
     editorProps: {
       attributes: {
-        class: `h-full min-h-screen prose sm:prose-base lg:prose-lg xl:prose-2xl m-5 focus:outline-none ${isPersonalOpen ? 'max-[800px]:hidden' : 'block'}`
-      }
+        class: `h-full min-h-screen prose sm:prose-base lg:prose-lg xl:prose-2xl m-5 focus:outline-none`
+      },
     },
     autofocus: true
   });
 
   React.useEffect(() => {
-    if (editor) {
-      editor.setEditable(isEditable);
+    if (editor && !isCommandOpen) {
+      editor.setEditable(true);
+      editor.chain().focus();
+    } else {
+      editor?.setEditable(false);
     }
-  }, [isEditable, editor]);
+  }, [editor, isCommandOpen]);
 
     return (
       <>
         <ClientSettingsPage />
-        <div id="editorParent" className='w-full h-full px-2 py-4' style={{
+        <div id="editorParent" className={`${isPersonalOpen ? '!hidden' : '!block'} w-full h-full px-2 py-4`} style={{
           backgroundColor: background,
           color: text
         }}>

@@ -2,12 +2,14 @@ import { FaUserCog, FaKeyboard } from "react-icons/fa";
 import { useAppSelector } from "../../hooks";
 import { useDispatch } from "react-redux";
 import { togglePersonalSettings } from "../../state/client";
+import Command from "../Command";
+
 const AppFooter = () => {
     const { appFooter, editor } = useAppSelector((state) => state.client.options);
     const { background: bg, text } = appFooter.style;
-
-    const isOpen = useAppSelector((state) => state.client.isPersonalOpen);
+    const isCommandOpen = useAppSelector((state) => state.command.isCommandOpen);
     const dispatch = useDispatch();
+
     const handleOpenSettings = () => {
         dispatch(togglePersonalSettings());
     }
@@ -17,14 +19,17 @@ const AppFooter = () => {
             color: text
         }}>
             <div>
-                9 words.
+            {isCommandOpen ? <Command /> : <span style={{ color: editor.style.text}}>9 words.</span>}
             </div>
             <div className="flex flex-row space-x-2">
                 <FaUserCog style={{
-                    color: isOpen ? editor.style.text : "white",
-                    fill: isOpen ? editor.style.text : "white",
+                    color: editor.style.text,
+                    fill: editor.style.text
                 }} className="text-[1rem] cursor-pointer" onClick={handleOpenSettings} /> 
-                <FaKeyboard className="text-[1rem] cursor-pointer" />
+                <FaKeyboard style={{
+                    color: editor.style.text,
+                    fill: editor.style.text
+                }} className="text-[1rem] cursor-pointer" />
             </div>
         </div>
     )

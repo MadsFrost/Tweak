@@ -4,20 +4,18 @@ import ThemeSetting from "../Settings/Theme";
 
 export type SettingsType = 'theme';
 const SettingsLayout = () => {
-    const [settingType, setSettingType] = React.useState<SettingsType>('theme');
+    const [settingType, setSettingType] = React.useState<SettingsType>();
     return (
         <div className='flex flex-col w-full h-full'>
-            <div className="border-b-2
+            <div className="
             flex flex-col 
-            border-white/30
             min-w-fit w-20 max-h-fit">
-                <span className="font-bold">Configurations</span>
-                <div className=''>
-                    <span onClick={() => setSettingType('theme')}>Theme</span>
+                <div className='hover:font-medium cursor-pointer'>
+                    <span className={`${settingType === "theme" && 'font-bold'} select-none`} onClick={() => setSettingType('theme')}> {'>'} Theme</span>
                 </div>
             </div>
-            <div className="min-w-fit w-full min-h-full">
-                {settingType && <SettingWrapper>
+            <div className="min-w-fit w-full min-h-full py-6">
+                {settingType === "theme" && <SettingWrapper>
                     <ThemeSetting />
                 </SettingWrapper>}
             </div>
