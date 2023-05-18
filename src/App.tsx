@@ -3,10 +3,12 @@ import { invoke } from "@tauri-apps/api/tauri";
 import AppLayout from "./components/AppLayout";
 import Editor from "./components/Editor";
 import './tailwind.css';
+import 'highlight.js/styles/github-dark.css';
 import useKeyDown from "./components/hooks/useKeyDown";
 import { useDispatch } from "react-redux";
 import { toggleCommand } from "./state/command";
 import { useAppSelector } from "./hooks";
+
 function App() {
   const [greetMsg, setGreetMsg] = useState("");
   const [name, setName] = useState("");
