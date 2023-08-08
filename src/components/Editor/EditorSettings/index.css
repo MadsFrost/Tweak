@@ -1,0 +1,12 @@
+.ProseMirror pre {
+    background: rgba(0,0,0,0.0);
+    font-size: 1rem !important;
+    transition: all;
+    font-weight: 600;
+}
+
+.ProseMirror pre:hover {
+    background: rgba(0,0,0,0.4);
+    transform: rotate3d(2,2,1);
+    font-weight: 700;
+}

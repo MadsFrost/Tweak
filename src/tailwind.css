@@ -13,5 +13,9 @@ body {
 }
 
 .testCodeBlock {
-  opacity: 50%;
+  opacity: 10%;
+}
+
+.taskList {
+  background-color: red !important;
 }

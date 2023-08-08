@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import client from './state/client'
 import command from './state/command'
+import files from './state/files';
 export const store = configureStore({
   reducer: {
     client: client,
-    command: command
+    command: command,
+    files: files
   },
 })
 
