@@ -4,13 +4,15 @@ import { IoMdClose } from "react-icons/io";
 import { VscChromeMinimize } from "react-icons/vsc";
 import { CgMaximize } from "react-icons/cg";
 import { useAppSelector } from "../../hooks";
+import FileTabs from "../FileTabs";
+
 const AppBar = () => {
   const { background: bg, text } = useAppSelector(
     (state) => state.client.options.appBar.style
   );
 
   const { files } = useAppSelector((state) => state.files);
-  const { isPersonalOpen } = useAppSelector((state) => state.client);
+  const { hideAppBars } = useAppSelector((state) => state.client);
   const [show, setShow] = React.useState(true);
   const docRef = React.useRef(document.documentElement);
 
@@ -35,28 +37,16 @@ const AppBar = () => {
   return (
     <div
       data-tauri-drag-region
-      className={`rounded-tl-xl rounded-tr-md fixed max-h-min px-2 py-1 min-w-screen w-full text-white flex ${
-        files ? "justify-between" : "justify-end"
+      className={`py-2 px-4 rounded-tl-xl rounded-tr-md fixed max-h-min items-center min-w-screen w-full text-white flex ${
+        files && hideAppBars ? "justify-between" : "justify-end pt-2"
       }`}
       style={{
         backgroundColor: bg,
         color: text,
       }}
     >
-      {files && (
-        <h1
-          className={`text-xs ${
-            show && !isPersonalOpen ? "opacity-100" : "opacity-0"
-          } transition-all duration-500 `}
-        >
-          New document
-        </h1>
-      )}
-      <div
-        className={`flex space-x-2 ${
-          show && !isPersonalOpen ? "opacity-100" : "opacity-0"
-        } transition-all duration-500 `}
-      >
+      {files && hideAppBars && <FileTabs />}
+      <div className={`flex space-x-2 px-2`}>
         <VscChromeMinimize onClick={() => appWindow.minimize()} />
         <CgMaximize onClick={() => appWindow.maximize()} />
         <IoMdClose onClick={() => appWindow.close()} />

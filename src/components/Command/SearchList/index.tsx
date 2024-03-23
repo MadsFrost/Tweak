@@ -1,5 +1,6 @@
 import React from "react";
 import availableCommands, { Command } from "../../../utils/availableCommands";
+import { useAppSelector } from "../../../hooks";
 import { Icon } from "../../Icon";
 
 export interface SearchListProps {
@@ -7,6 +8,7 @@ export interface SearchListProps {
 }
 
 const SearchList: React.FC<SearchListProps> = ({ query }) => {
+  const selectedFile = useAppSelector((state) => state.files.selectedFile);
   const commands = availableCommands();
   const [filteredCommands, setFilteredCommands] = React.useState<Command[]>([
     ...commands.editor,
@@ -20,23 +22,33 @@ const SearchList: React.FC<SearchListProps> = ({ query }) => {
       setFilteredCommands([...commands.editor, ...commands.files]);
     }
     if (search.length > 0) {
-      const filteredEditor = commands.editor.filter(
-        (editorCommand) =>
-          editorCommand.key.toLowerCase().includes(search) ||
-          editorCommand.name.toLowerCase().includes(search) ||
-          editorCommand.key.toLowerCase().indexOf(search) !== -1 ||
-          editorCommand.name.toLowerCase().indexOf(search) !== -1
-      );
+      if (selectedFile) {
+        const filteredEditor = commands.editor.filter(
+          (editorCommand) =>
+            editorCommand.key.toLowerCase().includes(search) ||
+            editorCommand.name.toLowerCase().includes(search) ||
+            editorCommand.key.toLowerCase().indexOf(search) !== -1 ||
+            editorCommand.name.toLowerCase().indexOf(search) !== -1
+        );
 
-      const filteredFiles = commands.files.filter(
-        (fileCommand) =>
-          fileCommand.key.toLowerCase().includes(search) ||
-          fileCommand.name.toLowerCase().includes(search) ||
-          fileCommand.key.toLowerCase().indexOf(search) !== -1 ||
-          fileCommand.name.toLowerCase().indexOf(search) !== -1
-      );
-
-      setFilteredCommands([...filteredEditor, ...filteredFiles]);
+        const filteredFiles = commands.files.filter(
+          (fileCommand) =>
+            fileCommand.key.toLowerCase().includes(search) ||
+            fileCommand.name.toLowerCase().includes(search) ||
+            fileCommand.key.toLowerCase().indexOf(search) !== -1 ||
+            fileCommand.name.toLowerCase().indexOf(search) !== -1
+        );
+        setFilteredCommands([...filteredEditor, ...filteredFiles]);
+      } else {
+        const filteredFiles = commands.files.filter(
+          (fileCommand) =>
+            fileCommand.key.toLowerCase().includes(search) ||
+            fileCommand.name.toLowerCase().includes(search) ||
+            fileCommand.key.toLowerCase().indexOf(search) !== -1 ||
+            fileCommand.name.toLowerCase().indexOf(search) !== -1
+        );
+        setFilteredCommands([...filteredFiles]);
+      }
     }
   }, [query]);
 

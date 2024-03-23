@@ -2,7 +2,13 @@ import { open } from "@tauri-apps/api/dialog";
 import { readTextFile } from "@tauri-apps/api/fs";
 import type { File } from "../state/files";
 
-const handleOpenFiles = async (): Promise<File[] | undefined> => {
+export interface HandleOpenFilesProps {
+  callback: (files: File[]) => void;
+}
+
+const handleOpenFiles = async (
+  props: HandleOpenFilesProps
+): Promise<File[] | undefined> => {
   const res = await open({
     multiple: true,
     filters: [
@@ -29,6 +35,8 @@ const handleOpenFiles = async (): Promise<File[] | undefined> => {
     });
 
     const files = await Promise.all(filePromises);
+    props.callback(files);
+
     return files;
   }
 

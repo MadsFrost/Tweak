@@ -1,19 +1,25 @@
-import { FaUserCog, FaKeyboard } from "react-icons/fa";
+import { FaCog } from "react-icons/fa";
 import { useAppSelector } from "../../hooks";
 import { useDispatch } from "react-redux";
-import { togglePersonalSettings } from "../../state/client";
+import { toggleSettings } from "../../state/client";
+import clsx from "clsx";
 
 const AppFooter = () => {
   const { appFooter, editor } = useAppSelector((state) => state.client.options);
   const { background: bg, text } = appFooter.style;
+  const settingsOpen = useAppSelector((state) => state.client.settingsOpen);
   const dispatch = useDispatch();
 
   const handleOpenSettings = () => {
-    dispatch(togglePersonalSettings());
+    dispatch(toggleSettings());
   };
+
+  const AppFooterStyle = clsx(
+    "rounded-br-md rounded-bl-md fixed bottom-0 z-30 w-full text-white text-xs py-1 px-2 flex flex-row justify-between"
+  );
   return (
     <div
-      className="rounded-br-md rounded-bl-md fixed bottom-0 z-30 w-full max-h-min text-white text-xs py-1 px-2 flex flex-row justify-between"
+      className={AppFooterStyle}
       style={{
         backgroundColor: bg,
         color: text,
@@ -21,20 +27,13 @@ const AppFooter = () => {
     >
       <span style={{ color: editor.style.text }}>9 words.</span>
       <div className="flex flex-row space-x-2">
-        <FaUserCog
+        <FaCog
           style={{
             color: editor.style.text,
             fill: editor.style.text,
           }}
           className="text-[1rem] cursor-pointer"
           onClick={handleOpenSettings}
-        />
-        <FaKeyboard
-          style={{
-            color: editor.style.text,
-            fill: editor.style.text,
-          }}
-          className="text-[1rem] cursor-pointer"
         />
       </div>
     </div>

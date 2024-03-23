@@ -5,7 +5,9 @@ import { ColorResult } from "react-color";
 
 interface ClientState {
   options: ClientOptions;
-  isPersonalOpen: boolean;
+  settingsOpen: boolean;
+  isUserNew: boolean;
+  hideAppBars: boolean;
 }
 
 interface SetBackgroundPayload {
@@ -20,7 +22,9 @@ interface SetTextPayload {
 
 // Define the initial state using that type
 const initialState: ClientState = {
-  isPersonalOpen: false,
+  settingsOpen: false,
+  isUserNew: true,
+  hideAppBars: false,
   options: {
     appBar: {
       style: {
@@ -83,13 +87,25 @@ export const client = createSlice({
         state.options.editor.style.text = rgbaColor;
       }
     },
-    togglePersonalSettings: (state) => {
-      state.isPersonalOpen = !state.isPersonalOpen;
+    toggleSettings: (state) => {
+      state.settingsOpen = !state.settingsOpen;
+      state.hideAppBars = !state.settingsOpen;
+    },
+    userOnBoarded: (state) => {
+      state.isUserNew = false;
+    },
+    toggleAppBars: (state) => {
+      state.hideAppBars = !state.hideAppBars;
     },
   },
 });
 
-export const { setBackground, setText, togglePersonalSettings } =
-  client.actions;
+export const {
+  setBackground,
+  setText,
+  toggleSettings,
+  toggleAppBars,
+  userOnBoarded,
+} = client.actions;
 
 export default client.reducer;

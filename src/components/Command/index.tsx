@@ -6,6 +6,7 @@ import { FiSearch } from "react-icons/fi";
 import SearchList from "./SearchList";
 import useKeyDown from "../hooks/useKeyDown";
 import { toggleCommand } from "../../state/command";
+
 const Command = () => {
   const commandRef = React.createRef<HTMLInputElement>();
   const [command, setCommand] = React.useState<string>("");

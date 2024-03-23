@@ -11,11 +11,13 @@ export interface File {
 
 export interface FileState {
   files: File[];
+  selectedFile: File | undefined;
 }
 
 // Define the initial state using that type
 const initialState: FileState = {
   files: [],
+  selectedFile: undefined,
 };
 
 export const files = createSlice({
@@ -30,10 +32,19 @@ export const files = createSlice({
       }
     },
 
-    selectFile: (state, action: PayloadAction<Pick<File, "path">>) => {},
+    selectFile: (state, action: PayloadAction<string>) => {
+      const hasFile = state.files.find((file) => file.path === action.payload);
+
+      if (hasFile) {
+        state.selectedFile = hasFile;
+      }
+    },
 
     closeFile: (state, action: PayloadAction<string>) => {
       state.files = state.files.filter((file) => file.path !== action.payload);
+      if (state.selectedFile?.path === action.payload) {
+        state.selectedFile = undefined;
+      }
     },
     updateFile: (state, action: PayloadAction<File>) => {
       state.files = state.files.map((file) => {
@@ -46,6 +57,6 @@ export const files = createSlice({
   },
 });
 
-export const { addFile } = files.actions;
+export const { addFile, selectFile, closeFile } = files.actions;
 
 export default files.reducer;
