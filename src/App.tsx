@@ -1,19 +1,20 @@
-import AppLayout from "./components/AppLayout";
-import Editor from "./components/Editor";
-import { useEffect } from "react";
 import "./tailwind.css";
 import "highlight.js/styles/github-dark.css";
+import AppLayout from "./components/AppLayout";
+import Editor from "./components/Editor";
+import Overview from "./components/Overview";
+import Command from "./components/Command";
+import Introduction from "./pages/Introduction";
+import ClientSettings from "./pages/ClientSettings";
+import { useEffect } from "react";
 import useKeyDown from "./components/hooks/useKeyDown";
+import handleFiles from "./utils/commandMaps/handleFiles";
+import { addFile } from "./state/files";
 import { useDispatch } from "react-redux";
 import { toggleCommand } from "./state/command";
 import { useAppSelector } from "./hooks";
-import Overview from "./components/Overview";
-import Command from "./components/Command";
-import Settings from "./pages/ClientSettings";
-import Introduction from "./pages/Introduction";
-import handleFiles from "./utils/commandMaps/handleFiles";
-import { addFile } from "./state/files";
 import type { File } from "./state/files";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 function App() {
   const dispatch = useDispatch();
   const { isCommandOpen, command } = useAppSelector((state) => state.command);
@@ -45,14 +46,37 @@ function App() {
       });
     }
   }, [isCommandOpen, command]);
+
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <AppLayout />,
+      errorElement: <div>Error</div>,
+      children: [
+        {
+          index: true,
+          element: <Overview />,
+        },
+        {
+          path: "edit/:filePath",
+          element: <Editor />,
+        },
+        {
+          path: "/introduction",
+          element: <Introduction />,
+        },
+        {
+          path: "/settings",
+          element: <ClientSettings />,
+        },
+      ],
+    },
+  ]);
+
   return (
     <div className="bg-transparent">
       <Command />
-      <AppLayout>
-        {userNew && <Introduction />}
-        {!selectedFile && !userNew && <Overview />}
-        {selectedFile && !userNew && <Editor />}
-      </AppLayout>
+      <RouterProvider router={router} />
     </div>
   );
 }

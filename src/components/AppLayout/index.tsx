@@ -2,10 +2,9 @@ import React from "react";
 import AppBar from "../AppBar";
 import AppFooter from "../AppFooter";
 import { useAppSelector } from "../../hooks";
-export interface AppLayoutProps {
-  children: React.ReactNode | React.ReactNode[];
-}
-const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
+import { Outlet } from "react-router-dom";
+
+const AppLayout = () => {
   const isSettingsOpen = useAppSelector((state) => state.client.settingsOpen);
   return (
     <div
@@ -17,7 +16,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
           isSettingsOpen ? "opacity-0 after:hidden" : "opacity-100"
         }`}
       >
-        {children}
+        <Outlet />
       </div>
       <AppFooter />
     </div>

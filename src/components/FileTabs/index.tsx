@@ -3,12 +3,15 @@ import { useAppSelector } from "../../hooks";
 import { useAppDispatch } from "../../hooks";
 import { selectFile, closeFile } from "../../state/files";
 import { IoMdClose } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 const FileTabs = () => {
+  const navigate = useNavigate();
   const { files, selectedFile } = useAppSelector((state) => state.files);
   const dispatch = useAppDispatch();
   const handleSelectFile = (path: string) => {
     dispatch(selectFile(path));
+    navigate(`/editor/${path}`);
   };
 
   return (
